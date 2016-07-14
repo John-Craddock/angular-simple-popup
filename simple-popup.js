@@ -204,14 +204,15 @@ Except as contained in this notice, the name of the John Craddock shall not be u
       }
 
       function goToScreen(numb){
-        if (numb > numbScreens){
+        //removed this test during a bug fix
+        /*if (numb > numbScreens){
           console.warn('Only ' + numbScreens + ' screens available.');
           return;
         }
         if (numb <= 0){
           console.warn('No non natural numbered screens');
           return;
-        }
+        }*/
         removeMoveClasses();
         currentScreen = numb;
         $target.addClass('screen-'+numb);
