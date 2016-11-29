@@ -112,7 +112,8 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
         var thisRenderedScreen = contentContainer.getElementsByTagName('section')[0];
         setTimeout(addAriaTags(contentContainer),200);
-        setFocus(thisRenderedScreen);
+        setTimeout(setFocus(thisRenderedScreen),2000);
+        //setFocus(thisRenderedScreen);
         
         warnIfpopupObjectMissing();
 
@@ -139,14 +140,22 @@ Except as contained in this notice, the name of the John Craddock shall not be u
       }//addAriaTags
 
       function setFocus(section){
-        var inputEl = section.getElementsByTagName('input') ? section.getElementsByTagName('input') : [],
+        var inputEl = section.getElementsByTagName('input'),
             btnEl = section.querySelector('.' + PRIMARY_BUTTON_CLASS) ? section.querySelector('.' + PRIMARY_BUTTON_CLASS) : '';
-        var focusElement = inputEl.length > 0 ? inputEl[0] : btnEl;
 
         //need to put in a timeout so the element to be focussed has rendered.
-        setTimeout(function(){
-          focusElement.focus();
-        },200);
+        if(inputEl.length > 0){
+          setTimeout(function(){
+            inputEl.focus();
+          },200);
+        }else if(btnEl !== ''){
+          setTimeout(function(){
+            btnEl.focus();
+          },200);
+        }else{
+          return;
+        }
+        
       }//setFocus
 
       function getScreenNumber(){
@@ -238,8 +247,12 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         currentScreen = numb;
         $target.addClass('screen-'+numb);
 
-        var thisRenderedScreen = target.getElementsByTagName('section')[numb - 1];
-        setFocus(thisRenderedScreen);
+        
+        setTimeout(function(){
+          var thisRenderedScreen = target.getElementsByTagName('section')[numb - 1];
+          setFocus(thisRenderedScreen);
+        },200);
+
       }//goToScreen
 
       function goToNextScreen(){
