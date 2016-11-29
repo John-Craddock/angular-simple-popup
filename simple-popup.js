@@ -146,7 +146,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         //need to put in a timeout so the element to be focussed has rendered.
         if(inputEl.length > 0){
           setTimeout(function(){
-            inputEl.focus();
+            inputEl[0].focus();
           },200);
         }else if(btnEl !== ''){
           setTimeout(function(){
