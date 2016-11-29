@@ -36,7 +36,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
           currentScreen,
           filename;
 
-      
+      var PRIMARY_BUTTON_CLASS = 'btn-1'; //a class used to mark primary buttons. Focus will be set to these on screen transitions.
       //delay execution of initialise function until next event loop.
       //Ensures scope of calling view is fully resolved
       setTimeout(initialise,1);
@@ -109,6 +109,10 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         contentContainer.innerHTML = content;
         $compile(contentContainer)($scope);
         $target.addClass('popup-show');
+
+        var thisRenderedScreen = contentContainer.getElementsByTagName('section')[0];
+        setTimeout(addAriaTags(contentContainer),200);
+        setFocus(thisRenderedScreen);
         
         warnIfpopupObjectMissing();
 
@@ -123,10 +127,27 @@ Except as contained in this notice, the name of the John Craddock shall not be u
           $scope.popupObject.start(attrs);
         }
 
-
         attachClassWatchers();
         
-      } // /showPopup
+      } //showPopup
+
+      function addAriaTags(container){
+        var dialogs = container.getElementsByTagName('section');
+        for (var count = 0; count < dialogs.length; count++){
+          dialogs[count].setAttribute('aria-dialog','');
+        }
+      }//addAriaTags
+
+      function setFocus(section){
+        var inputEl = section.getElementsByTagName('input') ? section.getElementsByTagName('input') : [],
+            btnEl = section.querySelector('.' + PRIMARY_BUTTON_CLASS) ? section.querySelector('.' + PRIMARY_BUTTON_CLASS) : '';
+        var focusElement = inputEl.length > 0 ? inputEl[0] : btnEl;
+
+        //need to put in a timeout so the element to be focussed has rendered.
+        setTimeout(function(){
+          focusElement.focus();
+        },200);
+      }//setFocus
 
       function getScreenNumber(){
         return currentScreen;
@@ -216,6 +237,9 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         removeMoveClasses();
         currentScreen = numb;
         $target.addClass('screen-'+numb);
+
+        var thisRenderedScreen = target.getElementsByTagName('section')[numb - 1];
+        setFocus(thisRenderedScreen);
       }//goToScreen
 
       function goToNextScreen(){
