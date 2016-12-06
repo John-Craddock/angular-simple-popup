@@ -76,7 +76,9 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
       function closeOnStateDestroy(){
         $scope.$on('$destroy',function(){
-          closePopup();
+          if ($target.attr('filename') === filename){
+            closePopup();
+          }
         });
       }//closeOnStateDestroy
 
@@ -84,10 +86,12 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         var match = templateURL.match(/[^\/]*.html/);
         filename = match[0].substring(0,match[0].indexOf('html')-1);
         $target.addClass(filename);
+        $target.attr('filename', filename);
       }//getTemplateName
 
       function removeTemplateName(){
         $target.removeClass(filename);
+        $target.removeAttr('filename');
       }//removeTemplateName
        
 
@@ -251,7 +255,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         setTimeout(function(){
           var thisRenderedScreen = target.getElementsByTagName('section')[numb - 1];
           setFocus(thisRenderedScreen);
-        },200);
+        },1000);//needs a longer timeout to focus correctly
 
       }//goToScreen
 
