@@ -255,7 +255,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         setTimeout(function(){
           var thisRenderedScreen = target.getElementsByTagName('section')[numb - 1];
           setFocus(thisRenderedScreen);
-        },1000);//needs a longer timeout to focus correctly
+        },1000);//needs a longer timeout to focus correctly, moving focus during a css transition caused a bug in Chrome
 
       }//goToScreen
 
