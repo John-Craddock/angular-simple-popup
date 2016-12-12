@@ -144,15 +144,15 @@ Except as contained in this notice, the name of the John Craddock shall not be u
       }//addAriaTags
 
       function setFocus(section){
-        var inputElements = section.getElementsByTagName('input'),
+        var inputEl = section.getElementsByTagName('input').length > 0 ? section.getElementsByTagName('input')[0] : section.getElementsByTagName('input'),
             btnEl = section.querySelector('.' + PRIMARY_BUTTON_CLASS) ? section.querySelector('.' + PRIMARY_BUTTON_CLASS) : '';
 
         //need to put in a timeout so the element to be focussed has rendered.
-        if(inputElements.length > 0){
+        if(inputEl.length > 0){
           setTimeout(function(){
-            inputElements[0].focus();
+            inputEl.focus();
           },200);
-        }else if(btnEl !== ''){
+        }else if(btnEl){//empty string comparator not required as empty string always evaluates to falsy
           setTimeout(function(){
             btnEl.focus();
           },200);
