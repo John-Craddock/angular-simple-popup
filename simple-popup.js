@@ -167,7 +167,6 @@ Except as contained in this notice, the name of the John Craddock shall not be u
               firstPrimaryBtn.focus();
             },200);
           }
-          return;
         }
         
       }//setFocus
