@@ -144,20 +144,29 @@ Except as contained in this notice, the name of the John Craddock shall not be u
       }//addAriaTags
 
       function setFocus(section){
-        var inputElements = section.getElementsByTagName('input'),
-            btnEl = section.querySelector('.' + PRIMARY_BUTTON_CLASS) ? section.querySelector('.' + PRIMARY_BUTTON_CLASS) : '';
-
-        //need to put in a timeout so the element to be focussed has rendered.
-        if(inputElements.length > 0){
-          setTimeout(function(){
-            inputElements[0].focus();
-          },200);
-        }else if(btnEl !== ''){
-          setTimeout(function(){
-            btnEl.focus();
-          },200);
-        }else{
+        if(!section){
+          //if popup is closed before this happens do nothing.
           return;
+        }
+        //get the first input element
+        var firstInputElement = section.getElementsByTagName('input')[0];
+        //does it exist?
+        if(firstInputElement){
+          //if so, focus on it - timeout required so the element to focus has rendered.
+          setTimeout(function(){
+            firstInputElement.focus();
+          },200);
+        }
+        //if not, get first primary button
+        else{
+          var firstPrimaryBtn = section.querySelector('.' + PRIMARY_BUTTON_CLASS);
+          //does that exist?
+          if(firstPrimaryBtn){
+            //if so, focus on it - timeout required so the element to focus has rendered.
+            setTimeout(function(){
+              firstPrimaryBtn.focus();
+            },200);
+          }
         }
         
       }//setFocus
