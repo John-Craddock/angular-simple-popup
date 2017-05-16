@@ -87,16 +87,25 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         filename = match[0].substring(0,match[0].indexOf('html')-1);
         $target.addClass(filename);
         $target.attr('filename', filename);
-      }//getTemplateName
+      }//addTemplateName
 
       function removeTemplateName(){
         $target.removeClass(filename);
         $target.removeAttr('filename');
       }//removeTemplateName
+
+      function addViewLocation(){
+        $target.attr('location', window.location.hash);
+      }
+
+      function removeViewLocation(){
+        $target.attr('location', window.location.hash);
+      }
        
 
       function closePopup(){
         removeTemplateName();
+        removeViewLocation();
         removeMoveClasses();
         currentScreen = undefined;
         if ($scope.popupObject && $scope.popupObject.reset){
@@ -109,6 +118,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
       function showPopup(content){
         addTemplateName(sourceURL);
+        addViewLocation();
         currentScreen = 1;
         contentContainer.innerHTML = content;
         $compile(contentContainer)($scope);
