@@ -394,9 +394,9 @@ Except as contained in this notice, the name of the John Craddock shall not be u
     }
     return frag;
   }
-
   var defaultContentStrings = {
-    en: '<h2>Error loading content, please reload the page</h2><button class="popup-close">close</button>'
+    en: '<h2>Error loading content, please reload the page</h2><button class="popup-close">close</button>',
+    es: '<h2>Erroro loadingo contento, please reload the page</h2><button class="popup-close">close</button>'
   };
   var defaultContent = defaultContentStrings.en;
 }());
