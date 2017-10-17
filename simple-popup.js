@@ -16,9 +16,11 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 (function(){
   'use strict';
         
-  var directive = function($templateRequest, $compile){
+  var directive = function($templateRequest, $compile, $rootScope){
     var link;
-    
+    if ($rootScope && $rootScope.locale && defaultContentStrings[$rootScope.locale]){
+      defaultContent = defaultContentStrings[$rootScope.locale];
+    }
     //append html to body element
     var popupHTML = '<div class="popup-modal popup-right" id="popup-right"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-modal popup-top" id="popup-top"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-modal popup-simple" id="popup-simple"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-overlay"></div>';
     
@@ -93,19 +95,10 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         $target.removeClass(filename);
         $target.removeAttr('filename');
       }//removeTemplateName
-
-      function addViewLocation(){
-        $target.attr('location', window.location.hash);
-      }
-
-      function removeViewLocation(){
-        $target.attr('location', window.location.hash);
-      }
        
 
       function closePopup(){
         removeTemplateName();
-        removeViewLocation();
         removeMoveClasses();
         currentScreen = undefined;
         if ($scope.popupObject && $scope.popupObject.reset){
@@ -118,7 +111,6 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
       function showPopup(content){
         addTemplateName(sourceURL);
-        addViewLocation();
         currentScreen = 1;
         contentContainer.innerHTML = content;
         $compile(contentContainer)($scope);
@@ -318,11 +310,12 @@ Except as contained in this notice, the name of the John Craddock shall not be u
                 children = templateFragment.childNodes,
                 count = 0,
                 startString, endString;
+
+            template = template ? template : defaultContent || '';
             numbScreens = 0;
             for (count = 0; count<children.length; count++){
               //var a = angular.element(children[count]);
               if (children[count].tagName && children[count].tagName.toLowerCase() === 'section'){
-                //debugger;
                 numbScreens += 1;
                 angular.element(children[count]).addClass('popup-screen');
               }
@@ -390,7 +383,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
   };
 
   angular.module('jtcraddock.simplePopup', [])
-  .directive('simplePopup',['$templateRequest', '$compile', directive]);
+  .directive('simplePopup',['$templateRequest', '$compile', '$rootScope', directive]);
 
   function createFragment(htmlStr) {
     var frag = document.createDocumentFragment(),
@@ -401,4 +394,9 @@ Except as contained in this notice, the name of the John Craddock shall not be u
     }
     return frag;
   }
+
+  var defaultContentStrings = {
+    en: '<h2>Error loading content, please reload the page</h2><button class="popup-close">close</button>'
+  };
+  var defaultContent = defaultContentStrings.en;
 }());
