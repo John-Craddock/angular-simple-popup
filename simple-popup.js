@@ -395,8 +395,30 @@ Except as contained in this notice, the name of the John Craddock shall not be u
     return frag;
   }
   var defaultContentStrings = {
-    en: '<h2>Error loading content, please reload the page</h2><button class="popup-close">close</button>',
-    es: '<h2>Erroro loadingo contento, please reload the page</h2><button class="popup-close">close</button>'
-  };
+    en: `<section>
+          <div class="splash-title">
+            <h3>Oops! Something Went Wrong</h3>
+          </div> 
+          <div class="splash-white center-text">
+            <p>If you\'ve been working, don\'t worry, your progress will be saved.</p>
+            <p>Please reload the page to return to where you were</p>
+          </div>
+          <div class="splash-footer">
+            <button class="btn-1 popup-close center-horizontally">Reload</button>
+          </div>
+        </section>`,
+    es: `<section>
+          <div class="splash-title">
+            <h3>Oops! Something Went Wrong</h3>
+          </div> 
+          <div class="splash-white center-text">
+            <p>If you\'ve been working, don\'t worry, your progress will be saved.</p>
+            <p>Please reload the page to return to where you were</p>
+          </div>
+          <div class="splash-footer">
+            <button class="btn-1 popup-close center-horizontally">Reload</button>
+          </div>
+        </section>`
+  }
   var defaultContent = defaultContentStrings.en;
 }());
