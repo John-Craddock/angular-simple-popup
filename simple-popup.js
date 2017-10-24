@@ -306,12 +306,13 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
       function getAndSetupTemplate(){
         return $templateRequest(sourceURL).then(function(template) {
+            template = template ? template : defaultContent || '';
             var templateFragment = createFragment(template),
                 children = templateFragment.childNodes,
                 count = 0,
                 startString, endString;
 
-            template = template ? template : defaultContent || '';
+            
             numbScreens = 0;
             for (count = 0; count<children.length; count++){
               //var a = angular.element(children[count]);
