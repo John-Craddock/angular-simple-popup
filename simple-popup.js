@@ -395,10 +395,6 @@ Except as contained in this notice, the name of the John Craddock shall not be u
     return frag;
   }
 
-  function reloadScreen() {
-    location.reload();
-  }
-
   var svg = `<svg 
                 version="1.1" 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -443,7 +439,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
             <p>Please reload the page to return to where you were.</p>
           </div>
           <div class="splash-footer">
-            <button onclick="location.reload()" class="btn-2 center-horizontally">Reload</button>
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Reload</button>
           </div>
         </section>`,
     es: `<section>
@@ -456,7 +452,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
             <p>Vuelve a refrescar la página para regresar a donde estabas.</p>
           </div>
           <div class="splash-footer">
-            <button onclick="location.reload()" class="btn-2 center-horizontally">Refrescar</button>
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Refrescar</button>
           </div>
         </section>`,
     sk: `<section>
@@ -469,7 +465,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
             <p>Please reload the page to return to where you were.</p>
           </div>
           <div class="splash-footer">
-            <button onclick="location.reload()" class="btn-2 center-horizontally">Reload</button>
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Reload</button>
           </div>
         </section>`
   };
