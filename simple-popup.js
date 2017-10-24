@@ -16,9 +16,11 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 (function(){
   'use strict';
         
-  var directive = function($templateRequest, $compile){
+  var directive = function($templateRequest, $compile, $rootScope){
     var link;
-    
+    if ($rootScope && $rootScope.locale && defaultContentStrings[$rootScope.locale]){
+      defaultContent = defaultContentStrings[$rootScope.locale];
+    }
     //append html to body element
     var popupHTML = '<div class="popup-modal popup-right" id="popup-right"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-modal popup-top" id="popup-top"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-modal popup-simple" id="popup-simple"><div class="popup-content"><div class="content-inner"></div></div></div><div class="popup-overlay"></div>';
     
@@ -93,19 +95,10 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         $target.removeClass(filename);
         $target.removeAttr('filename');
       }//removeTemplateName
-
-      function addViewLocation(){
-        $target.attr('location', window.location.hash);
-      }
-
-      function removeViewLocation(){
-        $target.attr('location', window.location.hash);
-      }
        
 
       function closePopup(){
         removeTemplateName();
-        removeViewLocation();
         removeMoveClasses();
         currentScreen = undefined;
         if ($scope.popupObject && $scope.popupObject.reset){
@@ -118,7 +111,6 @@ Except as contained in this notice, the name of the John Craddock shall not be u
 
       function showPopup(content){
         addTemplateName(sourceURL);
-        addViewLocation();
         currentScreen = 1;
         contentContainer.innerHTML = content;
         $compile(contentContainer)($scope);
@@ -318,11 +310,12 @@ Except as contained in this notice, the name of the John Craddock shall not be u
                 children = templateFragment.childNodes,
                 count = 0,
                 startString, endString;
+
+            template = template ? template : defaultContent || '';
             numbScreens = 0;
             for (count = 0; count<children.length; count++){
               //var a = angular.element(children[count]);
               if (children[count].tagName && children[count].tagName.toLowerCase() === 'section'){
-                //debugger;
                 numbScreens += 1;
                 angular.element(children[count]).addClass('popup-screen');
               }
@@ -390,7 +383,7 @@ Except as contained in this notice, the name of the John Craddock shall not be u
   };
 
   angular.module('jtcraddock.simplePopup', [])
-  .directive('simplePopup',['$templateRequest', '$compile', directive]);
+  .directive('simplePopup',['$templateRequest', '$compile', '$rootScope', directive]);
 
   function createFragment(htmlStr) {
     var frag = document.createDocumentFragment(),
@@ -401,4 +394,80 @@ Except as contained in this notice, the name of the John Craddock shall not be u
     }
     return frag;
   }
+
+  var svg = `<svg 
+                version="1.1" 
+                xmlns="http://www.w3.org/2000/svg" 
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                width="4em"
+                height="4em"
+                x="0px" 
+                y="0px"
+                viewBox="0 0 30 30" 
+                enable-background="new 0 0 30 30" 
+                xml:space="preserve">
+              <g id="icon-background-circle">
+                <ellipse 
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -6.1304 14.8)" 
+                  fill="#FBC830" 
+                  stroke="#FBC830" 
+                  stroke-miterlimit="10" 
+                  cx="14.8" 
+                  cy="14.8" 
+                  rx="13.4" 
+                  ry="13.4"/>
+              </g>
+              <g id="exclamation-mark">
+                <g>
+                  <path 
+                    fill="#FFFFFF" 
+                    d="M13,21.7c0-0.6,0.2-1,0.5-1.3s0.8-0.5,1.4-0.5c0.6,0,1.1,0.2,1.4,0.5c0.4,0.3,0.5,0.8,0.5,1.3
+                    c0,0.6-0.2,1-0.5,1.3c-0.4,0.3-0.8,0.5-1.4,0.5c-0.6,0-1-0.2-1.4-0.5S13,22.3,13,21.7z M13.4,6.5h3.2v7.9L16,18.3h-2l-0.6-3.9V6.5
+                    z"/>
+                </g>
+              </g>
+            </svg>`;
+
+  var defaultContentStrings = {
+    en: `<section>
+          <div class="splash-title">
+            <h3>Oops! Something Went Wrong</h3>
+          </div> 
+          <div class="splash-white center-text">
+            <p>${svg}</p>
+            <p>If you've been working, don't worry, your progress will be saved.</p>
+            <p>Please reload the page to return to where you were.</p>
+          </div>
+          <div class="splash-footer">
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Reload</button>
+          </div>
+        </section>`,
+    es: `<section>
+          <div class="splash-title">
+            <h3>Vaya ¡algo ha salido mal!</h3>
+          </div> 
+          <div class="splash-white center-text">
+            <p>${svg}</p>
+            <p>Si estabas trabajando, no te preocupes, tu progreso se guardará.</p>
+            <p>Vuelve a refrescar la página para regresar a donde estabas.</p>
+          </div>
+          <div class="splash-footer">
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Refrescar</button>
+          </div>
+        </section>`,
+    sk: `<section>
+          <div class="splash-title">
+            <h3>Oops! Something Went Wrong</h3>
+          </div> 
+          <div class="splash-white center-text">
+            <p>${svg}</p>
+            <p>If you've been working, don't worry, your progress will be saved.</p>
+            <p>Please reload the page to return to where you were.</p>
+          </div>
+          <div class="splash-footer">
+            <button onclick="window.location.reload()" class="btn-2 center-horizontally">Reload</button>
+          </div>
+        </section>`
+  };
+  var defaultContent = defaultContentStrings.en;
 }());
