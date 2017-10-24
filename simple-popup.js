@@ -448,15 +448,15 @@ Except as contained in this notice, the name of the John Craddock shall not be u
         </section>`,
     es: `<section>
           <div class="splash-title">
-            <h3>Oops! Something Went Wrong</h3>
+            <h3>Vaya ¡algo ha salido mal!</h3>
           </div> 
           <div class="splash-white center-text">
             <p>${svg}</p>
-            <p>If you've been working, don't worry, your progress will be saved.</p>
-            <p>Please reload the page to return to where you were.</p>
+            <p>Si estabas trabajando, no te preocupes, tu progreso se guardará.</p>
+            <p>Vuelve a refrescar la página para regresar a donde estabas.</p>
           </div>
           <div class="splash-footer">
-            <button onclick="location.reload()" class="btn-2 center-horizontally">Reload</button>
+            <button onclick="location.reload()" class="btn-2 center-horizontally">Refrescar</button>
           </div>
         </section>`,
     sk: `<section>
